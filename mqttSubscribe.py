@@ -51,25 +51,24 @@ class Train(PoweredUpHub):
         self.message_info('Starting')
         if self.currentSpeed < 80:
             self.currentSpeed += 10
-        await self.motor.ramp_speed(self.currentSpeed, 2000)
+        await self.motor.ramp_speed(self.currentSpeed, 1000)
 
     async def faster_train(self):
         self.message_info('Increasing speed')
         if self.currentSpeed < 80:
             self.currentSpeed += 10
-        await self.motor.ramp_speed(self.currentSpeed, 2000)
+        await self.motor.ramp_speed(self.currentSpeed, 1000)
 
     async def slower_train(self):
         self.message_info('Decreasing speed')
         if self.currentSpeed > -80:
             self.currentSpeed -= 10
-        await self.motor.ramp_speed(self.currentSpeed, 2000)
+        await self.motor.ramp_speed(self.currentSpeed, 1000)
 
     async def stop_train(self):
         self.message_info('Coming to a stop')
         await self.motor.ramp_speed(0, 5000)
         await sleep(1)
-
 
 def connect_mqtt() -> mqtt:
     def on_connect(client, userdata, flags, rc):

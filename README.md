@@ -21,7 +21,7 @@ In that file, there is a line that looks like this:
 
 `ExecStart=/usr/lib/bluetooth/bluetoothd`
 
-We’ll need to add a -C to that line and then add another right below so it ends up looking like this:
+We’ll need to add a -C to that line and then add another right below, so it ends up looking like this:
 
 `ExecStart=/usr/lib/bluetooth/bluetoothd -C
 ExecStartPost=/usr/bin/sdptool add SP`
