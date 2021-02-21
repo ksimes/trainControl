@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {FormsModule} from "@angular/forms";
 import {PostcommandService} from "../services/postcommand.service";
-import {HttpClient} from "@angular/common/http";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -13,7 +13,7 @@ import {HttpClient} from "@angular/common/http";
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClient,
+    HttpClientModule
   ],
   providers: [PostcommandService],
   bootstrap: [AppComponent]
