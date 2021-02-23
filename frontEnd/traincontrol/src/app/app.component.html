@@ -5,7 +5,7 @@
     alt="Train Controller Logo"
     src="assets/favicon.png"
   />
-  <span>Welcome to the LEGO train controller</span>
+  <span>Welcome to the LEGO {{title}}</span>
   <img
     width="40"
     alt="Lego Logo"
@@ -14,10 +14,12 @@
 </div>
 
 <div class="content centerAll">
-  <div><button class="myButton" type="button" (click)="onStart()" >Start train</button></div>
-  <div><button class="myButton" type="button" (click)="onFaster()" >Faster</button></div>
-  <div><button class="myButton" type="button" (click)="onSlower()" >Slower</button></div>
-  <div><button class="myButton" type="button" (click)="onStop()" >Stop Train</button></div>
+  <div class="roundbox centerLeft">
+    <div><Button class="myButton" (click)="onStart()" >Start train</Button></div>
+    <div><Button class="myButton" (click)="onFaster()" >Faster</Button></div>
+    <div><Button class="myButton" (click)="onSlower()" >Slower</Button></div>
+    <div><Button class="myButton" (click)="onStop()" >Stop Train</Button></div>
+  </div>
 </div>
 
 

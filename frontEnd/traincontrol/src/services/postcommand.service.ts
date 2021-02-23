@@ -9,15 +9,19 @@ export class PostcommandService {
   // public Port:string = window.location.port;
   public Host:string = "simonking.website";
   public Port:string = "80";
-  public Server:string = "http://" + this.Host + ":" + this.Port;
+  public Server:string = "http://" + this.Host; // + ":" + this.Port;
 
   // public BaseApiUrl:string = "/api";
   public BaseApiUrl:string = "publish.php";
 
-  constructor(private _http: HttpClient)  { }
+  constructor(private _http: HttpClient)  {
+    // console.info("initialise PostcommandService")
+  }
 
   public postCommand(command: string, direction: string): void {
     let body = { action: command, direction: direction };
-    this._http.post(this.Server + this.BaseApiUrl, body);
+    console.info("URL: " + this.Server + "/" + this.BaseApiUrl);
+    console.info("body: " + body);
+    this._http.post(this.Server + "/" + this.BaseApiUrl, body);
   }
 }

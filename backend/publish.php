@@ -15,6 +15,7 @@ function executePublish($msg)
     global $mqtt, $username, $password;
     if ($mqtt->connect(true, NULL, $username, $password)) {
         $mqtt->publish('/simons/train', $msg, 1, false);
+        echo "Msg sent " . $msg . "\n";
         $mqtt->close();
     } else {
         echo "Time out!\n";
