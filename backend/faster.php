@@ -26,33 +26,6 @@ function executePublish($msg)
     }
 }
 
-// Get the posted data.
-$postData = file_get_contents("php://input");
-
-if(isset($postData) && !empty($postData)) {
-    echo "postData ->{$postData}";
-    // Extract the data.
-    $request = json_decode($postData);
-
-    // Validate.
-    if(trim($request->access) === '' || trim($request->direction) === '')
-    {
-        return http_response_code(400);
-    }
-
-    $access = trim($request->access);
-
-    echo "Access ->" . $access;
-
-    if ($access == 'faster') {
-        executePublish('faster');
-    } else if ($access == 'slower') {
-        executePublish('slower');
-    } else if ($access == 'stop') {
-        executePublish('stop');
-    } else if ($access == 'start') {
-        executePublish('start');
-    }
-}
+executePublish('faster');
 
 ?>

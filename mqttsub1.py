@@ -11,31 +11,28 @@ broker = 'broker.mqttdashboard.com'
 port = 1883
 topic = "/simons/train"
 client_id = f'python-mqtt-{random.randint(0, 1000)}'
-# username = 'test'
-# password = 'public'
 
+def on_message(client, userdata, message):
+    #print("message received " ,str(message.payload.decode("utf-8")))
+    q.put(str(message.payload.decode("utf-8")))
 
-def on_message(client, userdata, msg):
-    print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
-    q.put(str(msg.payload.decode()))
-
-
-async def startMqtt():
-    client = connect_mqtt()
-    subscribe(client)
+async def start_MQTT():
+    client = mqtt.Client(client_id)
+    client.on_message=on_message
+    client.connect(broker, port)
+    client.subscribe(topic)
     client.loop_start()
 
-
 q = UniversalQueue()
-
 
 @attach(TrainMotor, name='motor')
 class Train(PoweredUpHub):
     currentSpeed = 0
 
     async def run(self):
-        m = await spawn(startMqtt)
         self.message_info("Now up and Running")
+        m = await spawn(start_MQTT)
+        self.message_info("Started MQTT")
         while True:
             item = await q.get()
             self.message_info(f"have queue item `{item}`")
@@ -53,50 +50,29 @@ class Train(PoweredUpHub):
         self.message_info('Starting')
         if self.currentSpeed < 80:
             self.currentSpeed += 10
-        await self.motor.ramp_speed(self.currentSpeed, 1000)
+        await self.motor.ramp_speed(self.currentSpeed, 2000)
 
     async def faster_train(self):
         self.message_info('Increasing speed')
         if self.currentSpeed < 80:
             self.currentSpeed += 10
-        await self.motor.ramp_speed(self.currentSpeed, 1000)
+        await self.motor.ramp_speed(self.currentSpeed, 2000)
 
     async def slower_train(self):
         self.message_info('Decreasing speed')
         if self.currentSpeed > -80:
             self.currentSpeed -= 10
-        await self.motor.ramp_speed(self.currentSpeed, 1000)
+        await self.motor.ramp_speed(self.currentSpeed, 2000)
 
     async def stop_train(self):
         self.message_info('Coming to a stop')
         await self.motor.ramp_speed(0, 5000)
         await sleep(1)
 
-
-def connect_mqtt() -> mqtt:
-    def on_connect(client, userdata, flags, rc):
-        if rc == 0:
-            print("Connected to MQTT Broker!")
-        else:
-            print("Failed to connect, return code %d\n", rc)
-
-    client = mqtt.Client(client_id)
-    # client.username_pw_set(username, password)
-    client.on_connect = on_connect
-    print(f"subscribed to topic `{topic}` waiting on messages")
-    client.connect(broker, port)
-    return client
-
-
-def subscribe(client: mqtt):
-    client.subscribe(topic)
-    client.on_message = on_message
-
-
 async def system():
     Train('My train')
 
 if __name__ == '__main__':
-    formatter = "[%(asctime)s] %(name)s {%(filename)s:%(lineno)d} %(levelname)s - %(message)s"
-    logging.basicConfig(level=logging.INFO, format=formatter)
+    logging.basicConfig(level=logging.INFO)
     start(system)
+

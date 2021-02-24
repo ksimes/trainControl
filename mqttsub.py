@@ -3,14 +3,16 @@ import random
 
 import paho.mqtt.client as mqtt
 from bricknil import attach, start
+from bricknil.const import Color
 from bricknil.hub import PoweredUpHub
-from bricknil.sensor import TrainMotor
+from bricknil.sensor import TrainMotor, LED
 from curio import UniversalQueue, sleep, spawn
 
 broker = 'broker.mqttdashboard.com'
 port = 1883
 topic = "/simons/train"
 client_id = f'python-mqtt-{random.randint(0, 1000)}'
+client: mqtt = None
 # username = 'test'
 # password = 'public'
 
@@ -21,14 +23,23 @@ def on_message(client, userdata, msg):
 
 
 async def startMqtt():
+    global client
     client = connect_mqtt()
     subscribe(client)
     client.loop_start()
 
 
+async def endMqtt():
+    global client
+    client.disconnect()
+    client.loop_stop()
+
+
 q = UniversalQueue()
 
 
+# @attach(Button, name='train_btn', capabilities=['sense_press'])
+@attach(LED, name='train_led')
 @attach(TrainMotor, name='motor')
 class Train(PoweredUpHub):
     currentSpeed = 0
@@ -36,6 +47,7 @@ class Train(PoweredUpHub):
     async def run(self):
         m = await spawn(startMqtt)
         self.message_info("Now up and Running")
+        await self.train_led.set_color(Color.blue)
         while True:
             item = await q.get()
             self.message_info(f"have queue item `{item}`")
@@ -48,11 +60,13 @@ class Train(PoweredUpHub):
                     await self.faster_train()
                 if item == "slower":
                     await self.slower_train()
+                if item == "quit":
+                    await self.quit_all()
 
     async def start_train(self):
         self.message_info('Starting')
-        if self.currentSpeed < 80:
-            self.currentSpeed += 10
+        self.currentSpeed = 20
+        await self.train_led.set_color(Color.green)
         await self.motor.ramp_speed(self.currentSpeed, 1000)
 
     async def faster_train(self):
@@ -69,8 +83,17 @@ class Train(PoweredUpHub):
 
     async def stop_train(self):
         self.message_info('Coming to a stop')
-        await self.motor.ramp_speed(0, 5000)
+        await self.motor.ramp_speed(0, 2000)
+        await self.train_led.set_color(Color.blue)
+        self.currentSpeed = 0
         await sleep(1)
+
+    async def quit_all(self):
+        self.message_info('quitting out')
+        await self.motor.ramp_speed(0, 500)
+        await endMqtt()
+        await self.train_led.set_color(Color.blue)
+        quit()
 
 
 def connect_mqtt() -> mqtt:
