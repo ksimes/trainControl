@@ -92,7 +92,7 @@ class Train(PoweredUpHub):
         self.message_info('quitting out')
         await self.motor.ramp_speed(0, 500)
         await endMqtt()
-        await self.train_led.set_color(Color.blue)
+        await self.train_led.set_color(Color.orange)
         quit()
 
 

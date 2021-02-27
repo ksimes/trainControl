@@ -19,10 +19,10 @@ function executePublish($msg)
     global $mqtt, $username, $password;
     if ($mqtt->connect(true, NULL, $username, $password)) {
         $mqtt->publish('/simons/train', $msg, 1, false);
-        echo "Msg sent " . $msg . "\n";
         $mqtt->close();
     } else {
-        echo "Time out!\n";
+        echo json_encode("Time out!\n");
+        return http_response_code(500);
     }
 }
 
@@ -30,29 +30,30 @@ function executePublish($msg)
 $postData = file_get_contents("php://input");
 
 if(isset($postData) && !empty($postData)) {
-    echo "postData ->{$postData}";
     // Extract the data.
     $request = json_decode($postData);
 
     // Validate.
-    if(trim($request->access) === '' || trim($request->direction) === '')
+    if(trim($request->action) === '' || trim($request->direction) === '')
     {
+        echo json_encode($postData);
         return http_response_code(400);
     }
 
-    $access = trim($request->access);
+    $action = trim($request->action);
 
-    echo "Access ->" . $access;
-
-    if ($access == 'faster') {
+    if ($action == 'faster') {
         executePublish('faster');
-    } else if ($access == 'slower') {
+    } else if ($action == 'slower') {
         executePublish('slower');
-    } else if ($access == 'stop') {
+    } else if ($action == 'stop') {
         executePublish('stop');
-    } else if ($access == 'start') {
+    } else if ($action == 'start') {
         executePublish('start');
     }
+
+    echo json_encode("OK");
+    return http_response_code(200);
 }
 
 ?>

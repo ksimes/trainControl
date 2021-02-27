@@ -17,26 +17,18 @@ export class AppComponent {
   }
 
   onStart() {
-    // console.info("onStart")
-    // this.commandService.postCommand("start", this.direction)
-    this.commandService.postStart().subscribe(data => data);
+    this.commandService.postCommand("start", this.direction).subscribe(data => data);
   }
 
   onFaster() {
-    // console.info("onFaster")
-    // this.commandService.postCommand("faster", this.direction)
-    this.commandService.postFaster().subscribe(data => data);
+    this.commandService.postCommand("faster", this.direction).subscribe(data => data);
   }
 
   onSlower() {
-    // console.info("onSlower")
-    // this.commandService.postCommand("slower", this.direction)
-    this.commandService.postSlower().subscribe(data => data);
+    this.commandService.postCommand("slower", this.direction).subscribe(data => data);
   }
 
   onStop() {
-    // console.info("onStop")
-    // this.commandService.postCommand("stop", this.direction)
-    this.commandService.postStop().subscribe(data => data);
+    this.commandService.postCommand("stop", this.direction).subscribe(data => data);
   }
 }
