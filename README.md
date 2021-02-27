@@ -1,6 +1,6 @@
-## Starting with a SD card with Raspberian installed 
-So, the first thing you need to do is to make sure that everything is up to date. 
-I can’t underline that enough because you’ll run into errors if you haven’t. 
+## Starting with a SD card with clean version of Raspberian installed 
+So, the first thing you need to do is to make sure that everything is up to date on the Raspberry Pi. 
+I can’t underline that enough because you’ll run into weird errors if you don’t. 
 Just in case, you can copy and paste the code below to make sure.
 
 `sudo apt update -y && sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt dist-upgrade -y && sudo apt-get autoremove -y && sudo apt-get clean -y && sudo apt-get autoclean -y`
@@ -30,9 +30,11 @@ As in the last step, when everything is set up, finish off with another
 
 `sudo reboot .`
 
-So, why Adafruit? Well, we want to use Bluetooth to comunicate with a Lego Hub. 
+So, why use Adafruit? Well, we want to use Bluetooth to comunicate with a Lego Hub. 
 Not your average connection, I know, but seeing as we may have thousands of students playing around with these 
-in the near future using Python, I though it would be good to get the ball rolling. We’ll need adafruit to communicate with the Hub.
+in the near future using Python, it would be good to get the ball rolling with a reliable library. 
+We’ll need adafruit to communicate with the Hub smoothly.
+
 After the second reboot, (the reboots are important and shouldn’t be omitted) we can now get everything configured.
 First, let’s get Bluetooth up and running. We’ll start with:
 
@@ -56,7 +58,11 @@ Once in, we will run the following commands, one after another, hitting RETURN a
 
 `quit`
 
-Ok, so now we can finally use our newly configured Bluetooth to set something up! First, let’s run:
+Ok, so now we can finally use our newly configured Bluetooth to set something up! 
+
+**Note:** We can skip this section and go straight on to setting up and configuring the LEGO train 
+
+First, let’s run:
 
 `bluetoothctl scan on`
 
@@ -71,22 +77,39 @@ Now, let’s pair and trust it, hitting RETURN after each line below.
 `bluetoothctl trust 40:HR:32:46:GH:00`
 
 Up to this point, we have finished the steps you would follow for any bluetooth device you’d want to connect with. 
-The following will now be applied more specifically to the Lego Spike Prime, but will be similar to any type of device that requires specific command to be sent to it.
+The following will now be applied more specifically to the Lego Train, but will be similar to any type of device that requires specific command to be sent to it.
 
-We have a few ways to work with the Spike. The first way I never use, but I’ll mention it just to be thorough.
+We have a few ways to work with the Train. The first way I never use, but I’ll mention it just to be thorough.
 
 `sudo rfcomm connect hci0 40:HR:32:46:GH:00`
 
 With that, the Hub will turn purple, confirming you are connected. To escape that, we just type ctrl + c .
 
-Alternatively
+###To install the BrickNil library and setup the train
+
+BrickNil library details at https://github.com/virantha/bricknil (if the readme doesn't scan well then check https://virantha.github.io/bricknil/readme.html).
+To install the BrickNil library:
 
 `pip3 install bricknil`
 
-which will install all the requirements to talk to the LEGO train hub and control motors. This will allows us to run Python3 programs to
-play with 60197 Train kit.
+which will install all the requirements to control the LEGO train hub, motors, lights and more. This library will allow us to run Python3 programs to
+play with a **60197**,**60198** and a **76112** LEGO Train kit as well as the **10874** and **10875** Duplo train kits.
+
+See https://virantha.github.io/bricknil/readme.html for more details.
 
 Next we need the MQTT broker connection software and we can install that with:
 
 `pip3 install paho-mqtt`
 
+This will alow us to send messages via Python to and from the Raspberry Pi.
+
+That's all you need to do on the Raspberry Pi.
+
+The Angular part of the code is standard Angular version 8 and has it's own README.md in the frontEnd folder.
+
+The PHP is in the Backend and needs to be deployed on a website preferable in the same folder as the angular application.
+The name of the website is hardcoded into the angular application as "simonking.website". Not through any self publicity,
+but because I happened to have that hostname lying around when developing this application and it was easy to setup
+a website connected to that hostname.
+
+The code should work once deployed. Any problems email me at simon.king at stronans.com (replacing the at with the usual symbol)

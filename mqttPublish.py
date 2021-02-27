@@ -3,13 +3,12 @@ import time
 
 from paho.mqtt import client as mqtt_client
 
-# broker = 'broker.emqx.io'
 broker = 'broker.mqttdashboard.com'
 port = 1883
 topic = "/simons/train"
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 1000)}'
-# username = 'emqx'
+# username = ''
 # password = 'public'
 
 def connect_mqtt():
