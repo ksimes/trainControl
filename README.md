@@ -85,7 +85,7 @@ We have a few ways to work with the Train. The first way I never use, but I’ll
 
 With that, the Hub will turn purple, confirming you are connected. To escape that, we just type ctrl + c .
 
-###To install the BrickNil library and setup the train
+### To install the BrickNil library and setup the train
 
 BrickNil library details at https://github.com/virantha/bricknil (if the readme doesn't scan well then check https://virantha.github.io/bricknil/readme.html).
 To install the BrickNil library:
