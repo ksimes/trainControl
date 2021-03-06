@@ -103,13 +103,30 @@ Next we need the MQTT broker connection software and we can install that with:
 
 This will alow us to send messages via Python to and from the Raspberry Pi.
 
+Copy the two files:
+
+`mqttsub.py`
+
+`mqttpub.py`
+
+from the RaspPi folder to a suitable folder under your Pi home folder on the Pi.
+
+Ignore the mqttPublish.py file for now as that is for future development. 
+
 That's all you need to do on the Raspberry Pi.
 
 The Angular part of the code is standard Angular version 8 and has it's own README.md in the frontEnd folder.
 
-The PHP is in the Backend and needs to be deployed on a website preferable in the same folder as the angular application.
+The PHP is in the Backend and needs to be deployed on a website preferable in the same folder (Usually HTDOCS) as the angular application.
 The name of the website is hardcoded into the angular application as "simonking.website". Not through any self publicity,
 but because I happened to have that hostname lying around when developing this application and it was easy to setup
-a website connected to that hostname.
+a website connected to that hostname. Just change it to your website name.
 
-The code should work once deployed. Any problems email me at simon.king at stronans.com (replacing the at with the usual symbol)
+Once everything is setup, your LEGO/Duplo train is ready to go on the tracks, the Rasp Pi is running and the command
+`python3 mqttsub.py`
+has been run and is sync'd with the train (you will need to press the button on not of the Lego controller uint and wait
+until the flashing stops, the LED becomes steady and then turns blue which indicates that it connected to
+the mqttsub program) and you have your website deployed and can hit the angular front end. Then just
+hit the button and see if the train starts going. 
+
+Any problems email me at simon.king at stronans.com (replacing the at with the usual symbol)
