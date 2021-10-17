@@ -26,11 +26,11 @@ We’ll need to add a -C to that line and then add another right below, so it en
 `ExecStart=/usr/lib/bluetooth/bluetoothd -C
 ExecStartPost=/usr/bin/sdptool add SP`
 
-As in the last step, when everything is set up, finish off with another
+As in the last step, when everything is set up and saved off, finish off with another:
 
 `sudo reboot .`
 
-So, why use Adafruit? Well, we want to use Bluetooth to comunicate with a Lego Hub. 
+So, why use the Adafruit libraries? Well, we want to use Bluetooth to comunicate with a Lego Hub. 
 Not your average connection, I know, but seeing as we may have thousands of students playing around with these 
 in the near future using Python, it would be good to get the ball rolling with a reliable library. 
 We’ll need adafruit to communicate with the Hub smoothly.
@@ -85,7 +85,7 @@ We have a few ways to work with the Train. The first way I never use, but I’ll
 
 With that, the Hub will turn purple, confirming you are connected. To escape that, we just type ctrl + c .
 
-### To install the BrickNil library and setup the train
+### To install the BrickNil library and setup and configure the train
 
 BrickNil library details at https://github.com/virantha/bricknil (if the readme doesn't scan well then check https://virantha.github.io/bricknil/readme.html).
 To install the BrickNil library:
@@ -124,9 +124,10 @@ a website connected to that hostname. Just change it to your website name.
 
 Once everything is setup, your LEGO/Duplo train is ready to go on the tracks, the Rasp Pi is running and the command
 `python3 mqttsub.py`
-has been run and is sync'd with the train (you will need to press the button on not of the Lego controller uint and wait
+has been run on the Rasp Pi and is sync'd with the train (you will need to press the button on top of the Lego controller unit (which will
+probably be built into your train) and wait
 until the flashing stops, the LED becomes steady and then turns blue which indicates that it connected to
 the mqttsub program) and you have your website deployed and can hit the angular front end. Then just
-hit the button and see if the train starts going. 
+hit the 'start train' button on the website and see if the train starts going!
 
 Any problems email me at simon.king at stronans.com (replacing the at with the usual symbol)
